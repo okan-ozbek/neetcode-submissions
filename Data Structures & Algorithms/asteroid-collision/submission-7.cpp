@@ -1,0 +1,65 @@
+class Solution {
+public:
+    vector<int> asteroidCollision(vector<int>& asteroids) {
+        if (asteroids.size() == 1) {
+            return asteroids;
+        }
+
+        int l{0};
+        int r{1};
+
+        while(r < asteroids.size()) {
+            if (sign(asteroids[l]) == sign(asteroids[r])) {
+                ++l;
+                ++r;
+                continue;
+            }
+
+            if (sign(asteroids[l]) < 0 && sign(asteroids[r]) > 0) {
+                ++l;
+                ++r;
+                continue;
+            }
+
+            if (abs(asteroids[l]) == abs(asteroids[r])) {
+                asteroids.erase(asteroids.begin() + r);
+                asteroids.erase(asteroids.begin() + l);
+            } else if (abs(asteroids[l]) > abs(asteroids[r])) {
+                asteroids.erase(asteroids.begin() + r);
+            } else {
+                asteroids.erase(asteroids.begin() + l);
+            }
+
+            l = 0;
+            r = 1;
+        }
+
+        return asteroids;
+    }
+
+    void print(vector<int> v) {
+        for (auto& x : v) {
+            std::cout << "[" << x << "]" << std::endl;
+        }
+    }
+
+    int abs(int num) {
+        if (num >= 0) {
+            return num;
+        }
+
+        return num * -1;
+    }
+
+    int sign(int num) {
+        if (num > 0) {
+            return 1;
+        }
+
+        if (num < 0) {
+            return -1;
+        }
+
+        return 0;
+    }
+};
